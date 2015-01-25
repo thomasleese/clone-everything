@@ -19,7 +19,8 @@ def get_repos(url):
     account = match.group('account')
 
     url = 'https://api.github.com/users/{0}/repos'.format(account)
-    req = requests.get(url)
+    headers = {'User-Agent': 'https://github.com/tomleese/clone-everything'}
+    req = requests.get(url, headers=headers)
 
     for repo in req.json():
         yield repo['name'], repo['ssh_url']
