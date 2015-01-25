@@ -11,7 +11,10 @@ setup(
     author_email='inbox@tomleese.me.uk',
     packages=find_packages(exclude=['tests*']),
     setup_requires=[
-        'nose >=1.0, <2'
+        'nose >=1, <2'
+    ],
+    install_requires=[
+        'requests >=2.5, <3'
     ],
     entry_points={
         'console_scripts': ['clone-everything = clone_everything.cli:main']
