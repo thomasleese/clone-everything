@@ -19,10 +19,11 @@ def main():
     """CLI entry point."""
     parser = ArgumentParser()
     parser.add_argument('repos')
+    parser.add_argument('--github-oauth-token')
     args = parser.parse_args()
 
     if github.matches_url(args.repos):
-        repos = github.get_repos(args.repos)
+        repos = github.get_repos(args.repos, args.github_oauth_token)
     else:
         print("Unknown 'repos' format.")
         sys.exit(1)

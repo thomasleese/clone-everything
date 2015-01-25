@@ -10,7 +10,7 @@ def matches_url(url):
     return bool(URL_REGEX.match(url))
 
 
-def get_repos(url):
+def get_repos(url, oauth_token=None):
     """Get a list of repo clone URLs."""
     match = URL_REGEX.match(url)
     if match is None:
@@ -19,8 +19,11 @@ def get_repos(url):
     account = match.group('account')
 
     url = 'https://api.github.com/users/{0}/repos'.format(account)
+    if oauth_token:
+        url = 'https://api.github.com/user/repos?type=owner'
     headers = {'User-Agent': 'https://github.com/tomleese/clone-everything'}
-    req = requests.get(url, headers=headers)
+    auth = (oauth_token, 'x-oauth-basic') if oauth_token is not None else None
+    req = requests.get(url, headers=headers, auth=auth)
 
     for repo in req.json():
         yield repo['name'], repo['ssh_url']
